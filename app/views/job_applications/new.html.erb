@@ -1,0 +1,29 @@
+<h1> New Job Application </h1>
+
+<% @job_application.errors.full_messages.each do |message| %>
+  <p style="color: red;"><%= message %> </p>
+<% end %>
+
+<%= form_with(model: @job_application) do |form| %>
+  <div>
+    <%= form.label :company_name %>
+    <%= form.text_field :company_name %>
+  </div>
+  <div>
+    <%= form.label :role %>
+    <%= form.text_field :role %>
+  </div>
+  <div>
+    <%= form.label :due_date %>
+    <%= form.date_field :due_date %>
+  </div>
+  <div>
+    <%= form.label :applied_on %>
+    <%= form.date_field :applied_on %>
+  </div>
+  <div>
+    <%= form.label :status %>
+    <%= form.select :status, ["Applied", "Interviewing", "Rejected", "Offer" ] %>
+  </div>
+  <%= form.button %>
+<% end %>

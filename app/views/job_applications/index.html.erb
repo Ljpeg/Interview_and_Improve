@@ -1,87 +1,20 @@
 <h1>
   List of all job applications
 </h1>
-
 <hr>
 
-<article>
-  <header>
-    <h2>
-      Add a new job application
-    </h2>
-  </header>
-
-  <form action="/insert_job_application" method="post">
-    <div>
-      <label for="user_id_box">
-        User
-      </label>
-
-      <input type="text" id="user_id_box" name="query_user_id">
-    </div>
-
-    <div>
-      <label for="company_name_box">
-        Company name
-      </label>
-
-      <input type="text" id="company_name_box" name="query_company_name">
-    </div>
-
-    <div>
-      <label for="role_box">
-        Role
-      </label>
-
-      <input type="text" id="role_box" name="query_role">
-    </div>
-
-    <div>
-      <label for="due_date_box">
-        Due date
-      </label>
-
-      <input type="date" id="due_date_box" name="query_due_date">
-    </div>
-
-    <div>
-      <label for="applied_on_box">
-        Applied on
-      </label>
-
-      <input type="date" id="applied_on_box" name="query_applied_on">
-    </div>
-
-    <div>
-      <label for="status_box">
-        Status
-      </label>
-
-      <input type="text" id="status_box" name="query_status">
-    </div>
-
-    <div>
-      <label for="interviews_count_box">
-        Interviews count
-      </label>
-
-      <input type="text" id="interviews_count_box" name="query_interviews_count">
-    </div>
-
-    <button type="submit">
-      Create job application
-    </button>
-  </form>
-</article>
+<div>
+  <%= link_to 'New Application', new_job_application_path %>
+</div>
 
 <hr>
 
 <article>
   <ul>
-    <% @list_of_job_applications.each do |a_job_application| %>
+    <% @job_applications.each do |job_application| %>
       <li>
-        <a href="/job_applications/<%= a_job_application.id %>">
-          Job application #<%= a_job_application.id %>
+        <a href="/job_applications/<%= job_application.id %>">
+          Job application #<%= job_application.id %>
         </a>
       </li>
     <% end %>
