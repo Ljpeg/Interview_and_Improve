@@ -23,7 +23,7 @@
   </div>
   <div>
     <%= form.label :status %>
-    <%= form.select :status, ["Applied", "Interviewing", "Rejected", "Offer" ] %>
+    <%= form.select :status, JobApplication.statuses.keys %>
   </div>
   <%= form.button %>
 <% end %>
