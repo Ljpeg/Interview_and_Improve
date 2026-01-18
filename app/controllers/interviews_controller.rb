@@ -1,62 +1,56 @@
 class InterviewsController < ApplicationController
+  def new
+    @interview = Interview.new
+    @job_application = JobApplication.find(params.fetch(:job_application_id))
+  end 
+
   def index
-    matching_interviews = Interview.all
-
-    @list_of_interviews = matching_interviews.order({ :created_at => :desc })
-
-    render({ :template => "interview_templates/index" })
+   @interviews = Interview.all.order({ created_at: :desc })
+   @job_application = JobApplication.find(params.fetch(:job_application_id))
   end
 
   def show
-    the_id = params.fetch("path_id")
+    @interview = Interview.find(params.fetch(:id))
+    @job_application = JobApplication.find(params.fetch(:job_application_id))
 
-    matching_interviews = Interview.where({ :id => the_id })
-
-    @the_interview = matching_interviews.at(0)
-
-    render({ :template => "interview_templates/show" })
   end
 
   def create
-    the_interview = Interview.new
-    the_interview.application_id = params.fetch("query_application_id")
-    the_interview.interview_type = params.fetch("query_interview_type")
-    the_interview.date_of = params.fetch("query_date_of")
-    the_interview.outcome = params.fetch("query_outcome")
-    the_interview.notes = params.fetch("query_notes")
+    interview_attributes = params.require(:interview).permit(:interview_type, :date_of, :outcome, :notes)
+    @interview = Interview.new(interview_attributes)
+    job_application = JobApplication.find(params.fetch(:job_application_id))
+    @interview.application_id = job_application.id
 
-    if the_interview.valid?
-      the_interview.save
-      redirect_to("/interviews", { :notice => "Interview created successfully." })
+    if @interview.valid?
+      @interview.save
+      redirect_to job_application_interviews_url, notice: "Interview created successfully."
     else
-      redirect_to("/interviews", { :alert => the_interview.errors.full_messages.to_sentence })
+      render "interviews/new"
     end
   end
 
+  def edit
+    @interview = Interview.find(params.fetch(:id))
+    @job_application = JobApplication.find(params.fetch(:job_application_id))
+  end
+
   def update
-    the_id = params.fetch("path_id")
-    the_interview = Interview.where({ :id => the_id }).at(0)
+    interview = Interview.find(params.fetch(:id))
+    interview_attributes = params.require(:interview).permit(:interview_type, :date_of, :outcome, :notes)
+    interview.assign_attributes(interview_attributes)
 
-    the_interview.application_id = params.fetch("query_application_id")
-    the_interview.interview_type = params.fetch("query_interview_type")
-    the_interview.date_of = params.fetch("query_date_of")
-    the_interview.outcome = params.fetch("query_outcome")
-    the_interview.notes = params.fetch("query_notes")
-
-    if the_interview.valid?
-      the_interview.save
-      redirect_to("/interviews/#{the_interview.id}", { :notice => "Interview updated successfully." } )
+    if interview.valid?
+      interview.save
+      redirect_to job_application_interview_url([interview.application_id, interview.id]), notice: "Interview updated successfully." 
     else
-      redirect_to("/interviews/#{the_interview.id}", { :alert => the_interview.errors.full_messages.to_sentence })
+      redirect_to job_application_interview_url([interview.application_id, interview.id]), alert: interview.errors.full_messages.to_sentence
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
-    the_interview = Interview.where({ :id => the_id }).at(0)
+    interview = Interview.find(params.fetch(:id))
+    interview.destroy
 
-    the_interview.destroy
-
-    redirect_to("/interviews", { :notice => "Interview deleted successfully." } )
+    redirect_to job_application_interviews_url, notice: "Interview deleted successfully."
   end
 end
