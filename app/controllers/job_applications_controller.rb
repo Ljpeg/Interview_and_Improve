@@ -8,12 +8,13 @@ class JobApplicationsController < ApplicationController
   end
 
   def show
-   @job_application = JobApplication.find(params.fetch(:id))
+    @job_application = JobApplication.find(params.fetch(:id))
   end
 
   def create
-    job_application_attributes = params.require(:job_application).permit(:user_id, :company_name, :role, :due_date, :applied_on, :status, :interviews_count)
+    job_application_attributes = params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
     job_application = JobApplication.new(job_application_attributes)
+    job_application.user_id = current_user.id
 
     if job_application.valid?
       job_application.save
@@ -28,9 +29,10 @@ class JobApplicationsController < ApplicationController
   end
 
   def update
-   job_application = JobApplication.find(params.fetch(:id))
-   job_application_attributes = params.require(:job_application).permit(:user_id, :company_name, :role, :due_date, :applied_on, :status, :interviews_count)
-   job_application.assign_attributes(job_application_attributes)
+    job_application = JobApplication.find(params.fetch(:id))
+    job_application_attributes = params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
+    job_application.assign_attributes(job_application_attributes)
+    job_application.user_id = current_user.id
 
     if job_application.valid?
       job_application.save
