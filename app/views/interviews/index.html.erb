@@ -1,0 +1,24 @@
+<h1>
+  List of all interviews
+</h1>
+<hr>
+
+<div>
+  <%= link_to 'New Interview', new_job_application_interview_path %>
+</div>
+
+<hr>
+
+<article>
+  <ul>
+    <% @interviews.each do |interview| %>
+      <li>
+        <a href="/job_applications/<%= @job_application.id %>/interviews/<%= interview.id %>">
+          Interview #<%= interview.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>
