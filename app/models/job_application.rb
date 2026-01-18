@@ -14,4 +14,8 @@
 #  user_id          :integer
 #
 class JobApplication < ApplicationRecord
+  belongs_to :user
+  has_many :interviews, dependent: :destroy
+  enum :status, [:applied, :interviewing, :rejected, :offer]
+  validates :company_name, :role, :status, presence: true
 end
