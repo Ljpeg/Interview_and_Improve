@@ -1,0 +1,77 @@
+<h1>
+  Interview #<%= @interview.interview_type %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/job_applications/<%= @job_application.id %>/interviews">
+      Go back
+    </a>
+  </div>
+ 
+  <div>
+    <a href="/job_applications/<%= @job_application.id %>/interviews/<%= @interview.id %>/edit">
+      Edit
+    </a>
+  </div>
+
+  <div>
+    <a href="/job_applications/<%= @job_application.id %>/interviews/<%= @interview.id %>" data-method="delete">
+      Delete interview
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Application
+    </dt>
+    <dd>
+      <%= @interview.application_id %>
+    </dd>
+
+    <dt>
+      Interview type
+    </dt>
+    <dd>
+      <%= @interview.interview_type %>
+    </dd>
+
+    <dt>
+      Date of
+    </dt>
+    <dd>
+      <%= @interview.date_of %>
+    </dd>
+
+    <dt>
+      Outcome
+    </dt>
+    <dd>
+      <%= @interview.outcome %>
+    </dd>
+
+    <dt>
+      Notes
+    </dt>
+    <dd>
+      <%= @interview.notes %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@interview.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@interview.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
