@@ -1,0 +1,25 @@
+<h1> New Interview </h1>
+
+<% @interview.errors.full_messages.each do |message| %>
+  <p style="color: red;"><%= message %></p>
+<% end %>
+
+<%= form_with(model: [@job_application, @interview]) do |form| %>
+  <div>
+    <%= form.label :interview_type %>
+    <%= form.select :interview_type, Interview.interview_types.keys %>
+  </div>
+  <div>
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+  <div>
+    <%= form.label :date_of %>
+    <%= form.date_field :date_of %>
+  </div>
+  <div>
+    <%= form.label :outcome %>
+    <%= form.select :outcome, Interview.outcomes.keys  %>
+  </div>
+  <%= form.button %>
+<% end %>
