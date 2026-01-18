@@ -1,66 +1,49 @@
 class JobApplicationsController < ApplicationController
+  def new
+    @job_application = JobApplication.new
+  end
+
   def index
-    matching_job_applications = JobApplication.all
-
-    @list_of_job_applications = matching_job_applications.order({ :created_at => :desc })
-
-    render({ :template => "job_application_templates/index" })
+    @job_applications = JobApplication.all.order({ created_at: :desc })
   end
 
   def show
-    the_id = params.fetch("path_id")
-
-    matching_job_applications = JobApplication.where({ :id => the_id })
-
-    @the_job_application = matching_job_applications.at(0)
-
-    render({ :template => "job_application_templates/show" })
+   @job_application = JobApplication.find(params.fetch(:id))
   end
 
   def create
-    the_job_application = JobApplication.new
-    the_job_application.user_id = params.fetch("query_user_id")
-    the_job_application.company_name = params.fetch("query_company_name")
-    the_job_application.role = params.fetch("query_role")
-    the_job_application.due_date = params.fetch("query_due_date")
-    the_job_application.applied_on = params.fetch("query_applied_on")
-    the_job_application.status = params.fetch("query_status")
-    the_job_application.interviews_count = params.fetch("query_interviews_count")
+    job_application_attributes = params.require(:job_application).permit(:user_id, :company_name, :role, :due_date, :applied_on, :status, :interviews_count)
+    job_application = JobApplication.new(job_application_attributes)
 
-    if the_job_application.valid?
-      the_job_application.save
-      redirect_to("/job_applications", { :notice => "Job application created successfully." })
+    if job_application.valid?
+      job_application.save
+      redirect_to job_applications_url, notice: "Job application created successfully."
     else
-      redirect_to("/job_applications", { :alert => the_job_application.errors.full_messages.to_sentence })
+      render "job_applications/new"
     end
   end
 
+  def edit
+    @job_application = JobApplication.find(params.fetch(:id))
+  end
+
   def update
-    the_id = params.fetch("path_id")
-    the_job_application = JobApplication.where({ :id => the_id }).at(0)
+   job_application = JobApplication.find(params.fetch(:id))
+   job_application_attributes = params.require(:job_application).permit(:user_id, :company_name, :role, :due_date, :applied_on, :status, :interviews_count)
+   job_application.assign_attributes(job_application_attributes)
 
-    the_job_application.user_id = params.fetch("query_user_id")
-    the_job_application.company_name = params.fetch("query_company_name")
-    the_job_application.role = params.fetch("query_role")
-    the_job_application.due_date = params.fetch("query_due_date")
-    the_job_application.applied_on = params.fetch("query_applied_on")
-    the_job_application.status = params.fetch("query_status")
-    the_job_application.interviews_count = params.fetch("query_interviews_count")
-
-    if the_job_application.valid?
-      the_job_application.save
-      redirect_to("/job_applications/#{the_job_application.id}", { :notice => "Job application updated successfully." } )
+    if job_application.valid?
+      job_application.save
+      redirect_to job_applications_url(job_application.id), notice: "Job application updated successfully."
     else
-      redirect_to("/job_applications/#{the_job_application.id}", { :alert => the_job_application.errors.full_messages.to_sentence })
+      redirect_to job_applications_url(job_application.id), alert: job_application.errors.full_messages.to_sentence
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
-    the_job_application = JobApplication.where({ :id => the_id }).at(0)
+    job_application = JobApplication.find(params.fetch(:id))
+    job_application.destroy
 
-    the_job_application.destroy
-
-    redirect_to("/job_applications", { :notice => "Job application deleted successfully." } )
+    redirect_to job_applications_url, notice: "Job application deleted successfully."
   end
 end
