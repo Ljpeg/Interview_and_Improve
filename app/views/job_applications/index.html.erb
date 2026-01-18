@@ -14,7 +14,7 @@
     <% @job_applications.each do |job_application| %>
       <li>
         <a href="/job_applications/<%= job_application.id %>">
-          Job application #<%= job_application.id %>
+          <%= job_application.role %> at <%= job_application.company_name%>
         </a>
       </li>
     <% end %>
