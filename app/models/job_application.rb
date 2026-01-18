@@ -14,8 +14,8 @@
 #  user_id          :integer
 #
 class JobApplication < ApplicationRecord
-  belongs_to :user
-  has_many :interviews, dependent: :destroy
+  belongs_to :user, class_name: "User", foreign_key: "user_id"
+  has_many :interviews, class_name: "Interview", foreign_key: "application_id", dependent: :destroy
   enum :status, [:applied, :interviewing, :rejected, :offer]
   validates :company_name, :role, :status, presence: true
 end

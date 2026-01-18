@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_17_234056) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_18_035706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "interviews", force: :cascade do |t|
+    t.integer "application_id"
+    t.integer "interview_type"
+    t.date "date_of"
+    t.integer "outcome"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "job_applications", force: :cascade do |t|
     t.integer "user_id"
