@@ -13,11 +13,11 @@ class JobApplicationsController < ApplicationController
 
   def create
     job_application_attributes = params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
-    job_application = JobApplication.new(job_application_attributes)
-    job_application.user_id = current_user.id
+    @job_application = JobApplication.new(job_application_attributes)
+    @job_application.user_id = current_user.id
 
-    if job_application.valid?
-      job_application.save
+    if @job_application.valid?
+      @job_application.save
       redirect_to job_applications_url, notice: "Job application created successfully."
     else
       render "job_applications/new"
