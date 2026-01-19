@@ -4,22 +4,16 @@
 
 <article>
   <div>
-    <a href="/job_applications/<%= @job_application.id %>/interviews">
-      Go back
-    </a>
+    <%= link_to "Go Back", job_application_interviews_path(@job_application) %>
   </div>
  
   <div>
-    <a href="/job_applications/<%= @job_application.id %>/interviews/<%= @interview.id %>/edit">
-      Edit
-    </a>
+    <%= link_to "Edit Interview Details", edit_interview_path %>
   </div>
 
   <div>
-    <a href="/job_applications/<%= @job_application.id %>/interviews/<%= @interview.id %>" data-method="delete">
-      Delete interview
-    </a>
-  </div>
+    <%= link_to "Delete This Interview", @interview, data: { method: :delete } %>
+  </div> 
   <dl>
     <dt>
       Application
@@ -56,22 +50,6 @@
       <%= @interview.notes %>
     </dd>
 
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@interview.created_at) %> ago
-    </dd>
+    <h2> Reflections </h2>  
 
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@interview.updated_at) %> ago
-    </dd>
-  </dl>
 </article>
-
-<hr>
-
-

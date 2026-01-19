@@ -4,6 +4,9 @@
 <hr>
 
 <div>
+  <%= link_to 'Go back', job_application_path(@job_application) %>
+</div>
+<div>
   <%= link_to 'Add Interview', new_job_application_interview_path %>
 </div>
 
@@ -13,9 +16,7 @@
   <ul>
     <% @interviews.each do |interview| %>
       <li>
-        <a href="/job_applications/<%= @job_application.id %>/interviews/<%= interview.id %>">
-          Interview #<%= interview.id %>
-        </a>
+        <%= link_to  "#{interview.interview_type} Interview", interview_path(interview.id) %>
       </li>
     <% end %>
   </ul>
