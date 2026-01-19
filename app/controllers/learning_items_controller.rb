@@ -10,8 +10,7 @@ class LearningItemsController < ApplicationController
   end
 
   def show
-    @interview = Interview.find(params.fetch(:id))
-    @learning_item = @interview.reflection.learning_items
+    @learning_item = LearningItem.find(params.fetch(:id))
   end
 
   def create
