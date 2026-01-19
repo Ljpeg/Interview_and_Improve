@@ -4,14 +4,6 @@ class ReflectionsController < ApplicationController
     @reflection = @interview.build_reflection
   end
 
-  def index
-    matching_reflections = Reflection.all
-
-    @list_of_reflections = matching_reflections.order({ :created_at => :desc })
-
-    render({ :template => "reflection_templates/index" })
-  end
-
   def show
     @interview = Interview.find(params.fetch(:interview_id))
     @reflection = @interview.reflection
@@ -31,6 +23,11 @@ class ReflectionsController < ApplicationController
       render "reflections/new"
     end
   end
+  
+  def edit
+    @interview = Interview.find(params.fetch(:interview_id))
+    @reflection = @interview.reflection
+  end 
 
   def update
     the_id = params.fetch("path_id")
@@ -50,11 +47,11 @@ class ReflectionsController < ApplicationController
   end
 
   def destroy
-    the_id = params.fetch("path_id")
-    the_reflection = Reflection.where({ :id => the_id }).at(0)
+    @interview = Interview.find(params.fetch(:interview_id))
+    @reflection = @interview.reflection
 
-    the_reflection.destroy
+    @reflection.destroy
 
-    redirect_to("/reflections", { :notice => "Reflection deleted successfully." } )
+    redirect_to interview_url(@reflection.interview), notice: "Reflection deleted successfully."
   end
 end
