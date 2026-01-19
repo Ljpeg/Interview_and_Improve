@@ -5,7 +5,7 @@
 <% end %>
 
 
-<%= form_with(model: [@interview, @reflection]) do 
+<%= form_with(model: @reflection, url: interview_reflection_path(@interview)) do 
 |form| %>
   <div>
     <%= form.label :positive_notes %>
@@ -17,7 +17,7 @@
   </div>
   <div>
     <%= form.label :primary_gap %>
-    <%= form.select :primary_gap, [ "select one", Reflection.primary_gaps.keys ] %>
+    <%= form.select :primary_gap, Reflection.primary_gaps.keys, prompt: "Select one" %>
   </div>
   <%= form.button %>
 <% end %>
