@@ -51,5 +51,13 @@
     </dd>
 
     <h2> Reflections </h2>  
+    
+    <% if !@interview.reflections&.exists? %>
+      <p> no current reflections on this interview <p>
+      <%= link_to 'Reflection on this interview', new_interview_reflections_path(@interview.id) %>
+
+    <% else %>
+      <p> There's a reflection <p>
+    <% end %>
 
 </article>
