@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_18_035706) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_19_000309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_18_035706) do
     t.date "applied_on"
     t.integer "status"
     t.integer "interviews_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reflections", force: :cascade do |t|
+    t.integer "interview_id"
+    t.text "positive_notes"
+    t.text "negative_notes"
+    t.integer "primary_gap"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
