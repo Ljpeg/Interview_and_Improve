@@ -11,10 +11,11 @@
 #  interview_id   :integer
 #
 class Reflection < ApplicationRecord
-  belongs_to :interview, required: true, class_name: "Interview", foreign_key: "interview_id"
+  belongs_to :interview, class_name: "Interview", foreign_key: "interview_id"
+  has_many :learning_items, dependent: :destroy
 
-  enum :primary_gap, [:technical_skills, :communication, :experience, :problem_solving, :preparation, :other
-]
+  enum :primary_gap, [:technical_skills, :communication, :experience, :problem_solving, :preparation, :other]
+
   def went_poorly_if_rejected
     return unless interview&.rejected?
 
