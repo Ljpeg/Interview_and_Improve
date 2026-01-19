@@ -52,5 +52,5 @@
   <p> no current learning items for this reflection </p>
   <%= link_to 'Add Learning Item', new_interview_reflection_learning_item_path(@interview.id) %>
 <% else %>
-  <%= link_to "Learning Items", interview_reflection_learning_item_path(@interview.id) %>
+  <%= link_to "Learning Items", interview_reflection_learning_items_path %>
 <% end %>
