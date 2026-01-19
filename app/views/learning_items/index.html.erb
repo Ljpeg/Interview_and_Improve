@@ -54,10 +54,10 @@
 
 <article>
   <ul>
-    <% @list_of_learning_items.each do |a_learning_item| %>
+    <% @learning_items.each do |learning_item| %>
       <li>
-        <a href="/learning_items/<%= a_learning_item.id %>">
-          Learning item #<%= a_learning_item.id %>
+        <a href="/learning_items/<%= learning_item.id %>">
+          Learning item #<%= learning_item.id %>
         </a>
       </li>
     <% end %>
