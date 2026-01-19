@@ -19,7 +19,7 @@
   </div>
   <div>
     <%= form.label :outcome %>
-    <%= form.select :outcome, Interview.outcomes.keys  %>
+    <%= form.select :outcome, [ "select one", Interview.outcomes.keys ]  %>
   </div>
   <%= form.button %>
 <% end %>
