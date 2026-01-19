@@ -1,4 +1,9 @@
 class LearningItemsController < ApplicationController
+  def new
+    @interview = Interview.find(params.fetch(:interview_id))
+    @learning_item = @interview.reflection.learning_items.build
+  end 
+
   def index
     matching_learning_items = LearningItem.all
 

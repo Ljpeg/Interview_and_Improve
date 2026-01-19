@@ -17,7 +17,7 @@
       Interview
     </dt>
     <dd>
-      <%= @reflection.interview_id %>
+      <%= @reflection.interview.job_application.company_name %> > <%= @reflection.interview.job_application.role %> > <%= @reflection.interview.interview_type %> interview
     </dd>
 
     <dt>
@@ -47,3 +47,10 @@
 
 <hr>
 
+<h2> Learning Items </h2>
+<% if !@reflection.learning_items.present? %>
+  <p> no current learning items for this reflection </p>
+  <%= link_to 'Add Learning Item', new_interview_reflection_learning_item_path(@interview.id) %>
+<% else %>
+  <%= link_to "Learning Items", interview_reflection_learning_item_path(@interview.id) %>
+<% end %>
