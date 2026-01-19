@@ -4,15 +4,13 @@
 
 <article>
   <div>
-    <a href="/reflections">
-      Go back
-    </a>
+    <%= link_to "Go back", interview_path(@interview.id)%>
   </div>
-
   <div>
-    <a href="/delete_reflection/<%= @reflection.id %>">
-      Delete reflection
-    </a>
+    <%= link_to "Edit", edit_interview_reflection_path %>
+  </div>
+  <div>
+    <%= link_to "Delete this reflection", interview_reflection_path(@interview.id), data: { method: :delete }%>
   </div>
   <dl>
     <dt>
