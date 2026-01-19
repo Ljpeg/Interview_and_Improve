@@ -18,5 +18,6 @@ class Reflection < ApplicationRecord
 
     if went_poorly.blank?
       errors.add(:went_poorly, "You must record what went poorly if an interview is rejected")
-  end 
+    end
+  end
 end
