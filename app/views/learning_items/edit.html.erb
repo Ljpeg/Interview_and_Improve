@@ -1,0 +1,21 @@
+<h1> Edit Learning Item </h1>
+
+<% @learning_item.errors.full_messages.each do |message| %>
+  <p style="color: red;"><%= message %></p>
+<% end %>
+
+<%= form_with(model: @learning_item) do |form| %>
+  <div>
+    <%= form.label :category %>
+    <%= form.select :category, LearningItem.categories.keys, prompt: "Select one" %>
+  </div>
+  <div>
+    <%= form.label :status %>
+    <%= form.select :status, LearningItem.statuses.keys, prompt: "Select one" %>
+  </div>
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+  <%= form.button %>
+<% end %>
