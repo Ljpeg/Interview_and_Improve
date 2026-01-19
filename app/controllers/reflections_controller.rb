@@ -1,4 +1,9 @@
 class ReflectionsController < ApplicationController
+  def new
+    @reflection = Reflection.new
+    @interview = Interview.find(params.fetch(:interview_id))
+  end
+
   def index
     matching_reflections = Reflection.all
 

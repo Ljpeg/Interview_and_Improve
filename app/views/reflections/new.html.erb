@@ -1,0 +1,23 @@
+<h1>New Reflection on <%= @interview.interview_type %> Interview at <%= @interview.job_application.company_name %></h1>
+
+<% @reflection.errors.full_messages.each do |message| %>
+  <p style="color: red;"><%= message %></p>
+<% end %>
+
+
+<%= form_with(model: [@interview, @reflection]) do 
+|form| %>
+  <div>
+    <%= form.label :positive_notes %>
+    <%= form.text_area :positive_notes %>
+  </div>
+  <div>
+    <%= form.label :negative_notes %>
+    <%= form.text_area :negative_notes %>
+  </div>
+  <div>
+    <%= form.label :primary_gap %>
+    <%= form.select :primary_gap, [ "select one", Reflection.primary_gaps.keys ] %>
+  </div>
+  <%= form.button %>
+<% end %>
