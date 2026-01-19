@@ -1,0 +1,21 @@
+<h1> Edit Reflection </h1>
+
+<% @reflection.errors.full_messages.each do |message| %>
+  <p style="color: red;"><%= message %></p>
+<% end %>
+
+<%= form_with(model: @reflection, url: interview_reflection_path(@interview)) do |form| %>
+  <div>
+    <%= form.label :positive_notes %>
+    <%= form.text_area :positive_notes %>
+  </div>
+  <div>
+    <%= form.label :negative_notes %>
+    <%= form.text_area :negative_notes %>
+  </div>
+  <div>
+    <%= form.label :primary_gap %>
+    <%= form.select :primary_gap, Reflection.primary_gaps.keys %>
+  </div>
+  <%= form.button %>
+<% end %>
