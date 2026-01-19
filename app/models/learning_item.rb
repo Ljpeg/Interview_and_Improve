@@ -11,7 +11,7 @@
 #  reflection_id :integer
 #
 class LearningItem < ApplicationRecord
-  belongs_to :reflection, class_name: "Reflection", foreign_key: "interview_id"
+  belongs_to :reflection, class_name: "Reflection", foreign_key: "reflection_id"
 
   enum :category, [:technical, :behavioral, :systemn_design, :other]
   enum :status, [:unaddressed, :pending, :improved]
