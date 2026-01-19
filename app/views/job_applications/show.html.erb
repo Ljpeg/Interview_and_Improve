@@ -1,5 +1,5 @@
 <h1>
-  Job application #<%= @job_application.id %> details
+  <%= @job_application.role %> at <%= @job_application.company_name%> details
 </h1>
 
 <article>
@@ -21,33 +21,6 @@
     </a>
   </div>
   <dl>
-    <dt>
-      User
-    </dt>
-    <dd>
-      <%= @job_application.user_id %>
-    </dd>
-
-    <dt>
-      Company name
-    </dt>
-    <dd>
-      <%= @job_application.company_name %>
-    </dd>
-
-    <dt>
-      Role
-    </dt>
-    <dd>
-      <%= @job_application.role %>
-    </dd>
-
-    <dt>
-      Due date
-    </dt>
-    <dd>
-      <%= @job_application.due_date %>
-    </dd>
 
     <dt>
       Applied on
@@ -61,102 +34,16 @@
     </dt>
     <dd>
       <%= @job_application.status %>
-    </dd>
-
-    <dt>
-      Interviews count
-    </dt>
-    <dd>
-      <%= @job_application.interviews_count %>
-    </dd>
-
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@job_application.created_at) %> ago
-    </dd>
-
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@job_application.updated_at) %> ago
-    </dd>
-  </dl>
+    </dd?
+    
 </article>
 
-<hr>
-
-
-<article>
-  <header>
-    <h2>
-      Edit job application
-    </h2>
-  </header>
-
-  <form action="/modify_job_application/<%= @job_application.id %>"  method="post" >
-    <div>
-      <label for="user_id_box">
-        User
-      </label>
-
-      <input type="text" id="user_id_box" name="query_user_id" value="<%= @job_application.user_id %>">
-    </div>
+    <hr>
 
     <div>
-      <label for="company_name_box">
-        Company name
-      </label>
-
-      <input type="text" id="company_name_box" name="query_company_name" value="<%= @job_application.company_name %>">
+      <div>
+        <a href="/job_applications/<%= @job_application.id %>/interviews">
+          <h2> Interviews for role </h2>
+        </a>
+      </div>
     </div>
-
-    <div>
-      <label for="role_box">
-        Role
-      </label>
-
-      <input type="text" id="role_box" name="query_role" value="<%= @job_application.role %>">
-    </div>
-
-    <div>
-      <label for="due_date_box">
-        Due date
-      </label>
-
-      <input type="date" id="due_date_box" name="query_due_date" value="<%= @job_application.due_date %>">
-    </div>
-
-    <div>
-      <label for="applied_on_box">
-        Applied on
-      </label>
-
-      <input type="date" id="applied_on_box" name="query_applied_on" value="<%= @job_application.applied_on %>">
-    </div>
-
-    <div>
-      <label for="status_box">
-        Status
-      </label>
-
-      <input type="text" id="status_box" name="query_status" value="<%= @job_application.status %>">
-    </div>
-
-    <div>
-      <label for="interviews_count_box">
-        Interviews count
-      </label>
-
-      <input type="text" id="interviews_count_box" name="query_interviews_count" value="<%= @job_application.interviews_count %>">
-    </div>
-
-    <button type="submit">
-      Update job application
-    </button>
-  </form>
-</article>
-
-<hr>
