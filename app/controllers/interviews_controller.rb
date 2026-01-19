@@ -11,8 +11,7 @@ class InterviewsController < ApplicationController
 
   def show
     @interview = Interview.find(params.fetch(:id))
-    @job_application = JobApplication.find(params.fetch(:job_application_id))
-
+    @job_application = @interview.job_application
   end
 
   def create
@@ -31,7 +30,7 @@ class InterviewsController < ApplicationController
 
   def edit
     @interview = Interview.find(params.fetch(:id))
-    @job_application = JobApplication.find(params.fetch(:job_application_id))
+    @job_application = @interview.job_application
   end
 
   def update
@@ -41,16 +40,16 @@ class InterviewsController < ApplicationController
 
     if interview.valid?
       interview.save
-      redirect_to job_application_interview_url([interview.application_id, interview.id]), notice: "Interview updated successfully." 
+      redirect_to interview_url(interview.id), notice: "Interview updated successfully." 
     else
-      redirect_to job_application_interview_url([interview.application_id, interview.id]), alert: interview.errors.full_messages.to_sentence
+      redirect_to interview_url(interview.id), alert: interview.errors.full_messages.to_sentence
     end
   end
 
   def destroy
     interview = Interview.find(params.fetch(:id))
     interview.destroy
-
-    redirect_to job_application_interviews_url, notice: "Interview deleted successfully."
+    
+    redirect_to job_application_interviews_url(interview.job_application), notice: "Interview deleted successfully."
   end
 end
