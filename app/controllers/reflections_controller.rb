@@ -1,7 +1,7 @@
 class ReflectionsController < ApplicationController
   def new
-    @reflection = Reflection.new
     @interview = Interview.find(params.fetch(:interview_id))
+    @reflection = @interview.build_reflection
   end
 
   def index
@@ -13,27 +13,22 @@ class ReflectionsController < ApplicationController
   end
 
   def show
-    the_id = params.fetch("path_id")
-
-    matching_reflections = Reflection.where({ :id => the_id })
-
-    @the_reflection = matching_reflections.at(0)
-
-    render({ :template => "reflection_templates/show" })
+    @interview = Interview.find(params.fetch(:interview_id))
+    @reflection = @interview.reflection
   end
 
   def create
-    the_reflection = Reflection.new
-    the_reflection.interview_id = params.fetch("query_interview_id")
-    the_reflection.positive_notes = params.fetch("query_positive_notes")
-    the_reflection.negative_notes = params.fetch("query_negative_notes")
-    the_reflection.primary_gap = params.fetch("query_primary_gap")
+    @interview = Interview.find(params.fetch(:interview_id))
+    reflection_attributes = params.require(:reflection).permit(:positive_notes, :negative_notes, :primary_gap)
+    @reflection = @interview.build_reflection(reflection_attributes)
 
-    if the_reflection.valid?
-      the_reflection.save
-      redirect_to("/reflections", { :notice => "Reflection created successfully." })
+
+    if @reflection.valid?
+      @reflection.save
+      # redirect_to interview_url(@interview.id),  notice: "Reflection created successfully." 
+      redirect_to interview_url(@interview),  notice: "Reflection created successfully." 
     else
-      redirect_to("/reflections", { :alert => the_reflection.errors.full_messages.to_sentence })
+      render "reflections/new"
     end
   end
 
