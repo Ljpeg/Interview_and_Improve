@@ -1,5 +1,5 @@
 <h1>
-  Reflection #<%= @the_reflection.id %> details
+  Reflection #<%= @reflection.id %> details
 </h1>
 
 <article>
@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <a href="/delete_reflection/<%= @the_reflection.id %>">
+    <a href="/delete_reflection/<%= @reflection.id %>">
       Delete reflection
     </a>
   </div>
@@ -19,43 +19,31 @@
       Interview
     </dt>
     <dd>
-      <%= @the_reflection.interview_id %>
+      <%= @reflection.interview_id %>
     </dd>
 
     <dt>
       Positive notes
     </dt>
     <dd>
-      <%= @the_reflection.positive_notes %>
+      <%= @reflection.positive_notes %>
     </dd>
 
     <dt>
       Negative notes
     </dt>
     <dd>
-      <%= @the_reflection.negative_notes %>
+      <%= @reflection.negative_notes %>
     </dd>
 
     <dt>
       Primary gap
     </dt>
     <dd>
-      <%= @the_reflection.primary_gap %>
+      <%= @reflection.primary_gap %>
     </dd>
 
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_reflection.created_at) %> ago
-    </dd>
-
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_reflection.updated_at) %> ago
-    </dd>
+    
   </dl>
 </article>
 
@@ -69,13 +57,13 @@
     </h2>
   </header>
 
-  <form action="/modify_reflection/<%= @the_reflection.id %>"  method="post" >
+  <form action="/modify_reflection/<%= @reflection.id %>"  method="post" >
     <div>
       <label for="interview_id_box">
         Interview
       </label>
 
-      <input type="text" id="interview_id_box" name="query_interview_id" value="<%= @the_reflection.interview_id %>">
+      <input type="text" id="interview_id_box" name="query_interview_id" value="<%= @reflection.interview_id %>">
     </div>
 
     <div>
@@ -83,7 +71,7 @@
         Positive notes
       </label>
 
-      <input type="text" id="positive_notes_box" name="query_positive_notes" value="<%= @the_reflection.positive_notes %>">
+      <input type="text" id="positive_notes_box" name="query_positive_notes" value="<%= @reflection.positive_notes %>">
     </div>
 
     <div>
@@ -91,7 +79,7 @@
         Negative notes
       </label>
 
-      <input type="text" id="negative_notes_box" name="query_negative_notes" value="<%= @the_reflection.negative_notes %>">
+      <input type="text" id="negative_notes_box" name="query_negative_notes" value="<%= @reflection.negative_notes %>">
     </div>
 
     <div>
@@ -99,7 +87,7 @@
         Primary gap
       </label>
 
-      <input type="text" id="primary_gap_box" name="query_primary_gap" value="<%= @the_reflection.primary_gap %>">
+      <input type="text" id="primary_gap_box" name="query_primary_gap" value="<%= @reflection.primary_gap %>">
     </div>
 
     <button type="submit">
