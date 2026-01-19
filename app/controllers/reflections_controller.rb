@@ -14,10 +14,8 @@ class ReflectionsController < ApplicationController
     reflection_attributes = params.require(:reflection).permit(:positive_notes, :negative_notes, :primary_gap)
     @reflection = @interview.build_reflection(reflection_attributes)
 
-
     if @reflection.valid?
-      @reflection.save
-      # redirect_to interview_url(@interview.id),  notice: "Reflection created successfully." 
+      @reflection.save 
       redirect_to interview_url(@interview),  notice: "Reflection created successfully." 
     else
       render "reflections/new"

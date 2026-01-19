@@ -5,35 +5,25 @@ class LearningItemsController < ApplicationController
   end 
 
   def index
-    matching_learning_items = LearningItem.all
-
-    @list_of_learning_items = matching_learning_items.order({ :created_at => :desc })
-
-    render({ :template => "learning_item_templates/index" })
+    @interview = Interview.find(params.fetch(:interview_id))
+    @learning_items = LearningItem.all.order({ created_at: :desc })
   end
 
   def show
-    the_id = params.fetch("path_id")
-
-    matching_learning_items = LearningItem.where({ :id => the_id })
-
-    @the_learning_item = matching_learning_items.at(0)
-
-    render({ :template => "learning_item_templates/show" })
+    @interview = Interview.find(params.fetch(:id))
+    @learning_item = @interview.reflection.learning_items
   end
 
   def create
-    the_learning_item = LearningItem.new
-    the_learning_item.reflection_id = params.fetch("query_reflection_id")
-    the_learning_item.category = params.fetch("query_category")
-    the_learning_item.description = params.fetch("query_description")
-    the_learning_item.status = params.fetch("query_status")
+    @interview = Interview.find(params.fetch(:interview_id))
+    learning_item_attributes = params.require(:learning_item).permit(:category, :description, :status)
+    @learning_item = @interview.reflection.learning_items.build(learning_item_attributes)
 
-    if the_learning_item.valid?
-      the_learning_item.save
-      redirect_to("/learning_items", { :notice => "Learning item created successfully." })
+    if @learning_item.valid?
+      @learning_item.save
+      redirect_to interview_reflection_learning_items_path, notice: "Learning item created successfully." 
     else
-      redirect_to("/learning_items", { :alert => the_learning_item.errors.full_messages.to_sentence })
+      render "learning_items/new"
     end
   end
 
