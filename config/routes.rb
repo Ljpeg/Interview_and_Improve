@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   #------------------------------
   resources :job_applications do
     resources :interviews, shallow: true do
-      resources :reflections do
+      resource :reflections do
         resources :learning_items, shallow: true
       end
     end
