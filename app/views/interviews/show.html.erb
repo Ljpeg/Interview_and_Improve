@@ -52,12 +52,15 @@
 
     <h2> Reflections </h2>  
     
-    <% if !@interview.reflections&.exists? %>
+    <% if !@interview.reflection.present? %>
       <p> no current reflections on this interview <p>
-      <%= link_to 'Reflection on this interview', new_interview_reflections_path(@interview.id) %>
+      <%= link_to 'Reflection on this interview', new_interview_reflection_path(@interview.id) %>
 
     <% else %>
-      <p> There's a reflection <p>
+      <p> Post Interview Reflections <p>
+      <p> Positive: <%= @interview.reflection.positive_notes %> </p>
+      <p> Negative: <%= @interview.reflection.negative_notes %> </p>
+      <p> Primary gap: <%= @interview.reflection.primary_gap %> </p>
     <% end %>
 
 </article>
