@@ -8,6 +8,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -21,5 +22,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
   has_many :job_applications, class_name: "JobApplication", foreign_key: "user_id", dependent: :destroy
+
+  enum :role, [:user, :admin]
+
+  after_initialize do
+    self.role ||= "user" if new_record?
+  end
 end
