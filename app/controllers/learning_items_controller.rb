@@ -11,6 +11,7 @@ class LearningItemsController < ApplicationController
 
   def show
     @learning_item = LearningItem.find(params.fetch(:id))
+    @interview = @learning_item.reflection.interview
   end
 
   def create
@@ -20,35 +21,33 @@ class LearningItemsController < ApplicationController
 
     if @learning_item.valid?
       @learning_item.save
-      redirect_to interview_reflection_learning_items_path, notice: "Learning item created successfully." 
+      redirect_to interview_reflection_path(@learning_item.reflection.interview.id), notice: "Learning item created successfully." 
     else
       render "learning_items/new"
     end
   end
 
+  def edit
+    @learning_item = LearningItem.find(params.fetch(:id))
+  end
+
   def update
-    the_id = params.fetch("path_id")
-    the_learning_item = LearningItem.where({ :id => the_id }).at(0)
+    @learning_item = LearningItem.find(params.fetch(:id))
+    learning_item_attributes = params.require(:learning_item).permit(:category, :description, :status)
+    @learning_item.assign_attributes(learning_item_attributes)
 
-    the_learning_item.reflection_id = params.fetch("query_reflection_id")
-    the_learning_item.category = params.fetch("query_category")
-    the_learning_item.description = params.fetch("query_description")
-    the_learning_item.status = params.fetch("query_status")
-
-    if the_learning_item.valid?
-      the_learning_item.save
-      redirect_to("/learning_items/#{the_learning_item.id}", { :notice => "Learning item updated successfully." } )
+    if @learning_item.valid?
+      @learning_item.save
+      redirect_to learning_item_path(@learning_item.id), notice: "Learning item updated successfully."
     else
-      redirect_to("/learning_items/#{the_learning_item.id}", { :alert => the_learning_item.errors.full_messages.to_sentence })
+      redirect_to learning_item_path(@learning_item.id), alert: @learning_item.errors.full_messages.to_sentence
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
-    the_learning_item = LearningItem.where({ :id => the_id }).at(0)
+    @learning_item = LearningItem.find(params.fetch(:id))
+    @learning_item.destroy
 
-    the_learning_item.destroy
-
-    redirect_to("/learning_items", { :notice => "Learning item deleted successfully." } )
+    redirect_to interview_reflection_path(@learning_item.reflection.interview.id), notice: "Learning item deleted successfully." 
   end
 end

@@ -41,7 +41,6 @@
       <%= @reflection.primary_gap %>
     </dd>
 
-    
   </dl>
 </article>
 
@@ -52,5 +51,14 @@
   <p> no current learning items for this reflection </p>
   <%= link_to 'Add Learning Item', new_interview_reflection_learning_item_path(@interview.id) %>
 <% else %>
+
   <%= link_to "Learning Items", interview_reflection_learning_items_path %>
+  <ul>
+    <% @learning_items.each do |learning_item| %>
+      <li>
+        <%= link_to "Learning Item #{learning_item.id}", learning_item_path(learning_item.id) %>
+      </li>
+    <% end %>
+  </ul>
+
 <% end %>

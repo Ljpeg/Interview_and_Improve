@@ -7,6 +7,7 @@ class ReflectionsController < ApplicationController
   def show
     @interview = Interview.find(params.fetch(:interview_id))
     @reflection = @interview.reflection
+    @learning_items = @reflection.learning_items
   end
 
   def create
