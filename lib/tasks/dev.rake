@@ -36,7 +36,7 @@ unless Rails.env.production?
 
       puts "-- Adding job applicatons --"
 
-      2.times do
+      10.times do
         
         name = names.sample
         email = "#{name}@example.com"
