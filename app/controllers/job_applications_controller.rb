@@ -1,20 +1,19 @@
 class JobApplicationsController < ApplicationController
-  def new
-    @job_application = JobApplication.new
-  end
+  before_action :set_job_application, only: [:show, :edit, :update, :destroy]
 
   def index
-    @job_applications = JobApplication.all.order({ created_at: :desc })
+    @job_applications = job_application_scope
+  end
+
+  def new
+    @job_application = current_user.job_applications.build
   end
 
   def show
-    @job_application = JobApplication.find(params.fetch(:id))
   end
 
   def create
-    job_application_attributes = params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
-    @job_application = JobApplication.new(job_application_attributes)
-    @job_application.user_id = current_user.id
+    @job_application = current_user.job_applications.build(job_application_params)
 
     if @job_application.valid?
       @job_application.save
@@ -25,27 +24,32 @@ class JobApplicationsController < ApplicationController
   end
 
   def edit
-    @job_application = JobApplication.find(params.fetch(:id))
   end
 
   def update
-    job_application = JobApplication.find(params.fetch(:id))
-    job_application_attributes = params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
-    job_application.assign_attributes(job_application_attributes)
-    job_application.user_id = current_user.id
+    @job_application.assign_attributes(job_application_params)
 
-    if job_application.valid?
-      job_application.save
-      redirect_to job_applications_url(job_application.id), notice: "Job application updated successfully."
+    if @job_application.valid?
+      @job_application.save
+      redirect_to job_applications_url(@job_application.id), notice: "Job application updated successfully."
     else
-      redirect_to job_applications_url(job_application.id), alert: job_application.errors.full_messages.to_sentence
+      redirect_to job_applications_url(@job_application.id), alert: job_application.errors.full_messages.to_sentence
     end
   end
 
   def destroy
-    job_application = JobApplication.find(params.fetch(:id))
-    job_application.destroy
+    @job_application.destroy
 
-    redirect_to job_applications_url, notice: "Job application deleted successfully."
+    redirect_to @job_applications_url, notice: "Job application deleted successfully."
   end
+
+  private
+  def set_job_application
+    @job_application = job_application_scope.find(params.fetch(:id))
+  end
+
+  def job_application_params
+    params.require(:job_application).permit(:company_name, :role, :due_date, :applied_on, :status)
+  end
+
 end
