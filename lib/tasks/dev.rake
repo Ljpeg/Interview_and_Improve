@@ -14,6 +14,15 @@ unless Rails.env.production?
 
       puts "-- Adding sample data --"
 
+      puts "-- Adding admin user --"
+
+      User.find_or_create_by!(email: "admin@example.com") do |u|
+        u.password = "supersecurepassword"
+        u.role = :admin
+      end
+
+      puts "-- Added admin user --"
+
       puts "-- Adding users --"
 
       names = [
@@ -36,7 +45,7 @@ unless Rails.env.production?
 
       puts "-- Adding job applicatons --"
 
-      10.times do
+      20.times do
         
         name = names.sample
         email = "#{name}@example.com"
@@ -52,7 +61,7 @@ unless Rails.env.production?
         )
         puts "-- Added job application for #{user.email} at #{job_app.company_name} --"
 
-        2.times do
+        3.times do
           interview = Interview.create(
             application_id: job_app.id,
             date_of: Faker::Date.forward(days: 23),
