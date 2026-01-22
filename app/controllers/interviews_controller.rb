@@ -1,24 +1,20 @@
 class InterviewsController < ApplicationController
+  before_action :set_job_application, only: [:index, :new, :create]
+  before_action :set_interview, only: [:show, :edit, :update, :destroy]
+
   def new
-    @interview = Interview.new
-    @job_application = JobApplication.find(params.fetch(:job_application_id))
+    @interview = @job_application.interviews.build
   end 
 
   def index
-   @interviews = Interview.all.order({ created_at: :desc })
-   @job_application = JobApplication.find(params.fetch(:job_application_id))
+   @interviews = @job_application.interviews
   end
 
   def show
-    @interview = Interview.find(params.fetch(:id))
-    @job_application = @interview.job_application
   end
 
   def create
-    interview_attributes = params.require(:interview).permit(:interview_type, :date_of, :outcome, :notes)
-    @interview = Interview.new(interview_attributes)
-    job_application = JobApplication.find(params.fetch(:job_application_id))
-    @interview.application_id = job_application.id
+    @interview = @job_application.interviews.build(interview_params)
 
     if @interview.valid?
       @interview.save
@@ -29,27 +25,40 @@ class InterviewsController < ApplicationController
   end
 
   def edit
-    @interview = Interview.find(params.fetch(:id))
-    @job_application = @interview.job_application
   end
 
   def update
-    interview = Interview.find(params.fetch(:id))
-    interview_attributes = params.require(:interview).permit(:interview_type, :date_of, :outcome, :notes)
-    interview.assign_attributes(interview_attributes)
+    @interview.assign_attributes(interview_params)
 
-    if interview.valid?
-      interview.save
-      redirect_to interview_url(interview.id), notice: "Interview updated successfully." 
+    if @interview.valid?
+      @interview.save
+      redirect_to interview_url(@interview.id), notice: "Interview updated successfully." 
     else
-      redirect_to interview_url(interview.id), alert: interview.errors.full_messages.to_sentence
+      redirect_to interview_url(@interview.id), alert: @interview.errors.full_messages.to_sentence
     end
   end
 
   def destroy
-    interview = Interview.find(params.fetch(:id))
-    interview.destroy
+    @interview.destroy
     
-    redirect_to job_application_interviews_url(interview.job_application), notice: "Interview deleted successfully."
+    redirect_to job_application_interviews_url(@interview.job_application), notice: "Interview deleted successfully."
   end
+
+  private
+  
+  def set_job_application
+    @job_application = job_application_scope.find(params.fetch(:job_application_id))
+  end
+
+  def set_interview
+    @interview = find_scoped!(
+      Interview.within_job_applications(job_application_scope),
+      id: params.fetch(:id)
+    )
+    @job_application = @interview.job_application 
+  end
+
+  def interview_params
+    params.require(:interview).permit(:interview_type, :date_of, :outcome, :notes)
+  end 
 end
