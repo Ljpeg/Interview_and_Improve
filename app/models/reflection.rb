@@ -16,6 +16,10 @@ class Reflection < ApplicationRecord
 
   enum :primary_gap, [:technical_skills, :communication, :experience, :problem_solving, :preparation, :other]
 
+  scope :within_job_applications, ->(job_apps) {
+    joins(interview: :job_application).merge(job_apps)
+  }
+
   def went_poorly_if_rejected
     return unless interview&.rejected?
 

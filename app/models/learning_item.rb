@@ -17,4 +17,8 @@ class LearningItem < ApplicationRecord
   enum :status, [:unaddressed, :pending, :improved]
   
   validates :description, :status, presence: true
+  
+  scope :within_job_applications, ->(job_apps) {
+    joins(reflection: { interview: :job_application }).merge(job_apps)
+  }
 end
