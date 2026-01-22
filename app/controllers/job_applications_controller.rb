@@ -40,7 +40,7 @@ class JobApplicationsController < ApplicationController
   def destroy
     @job_application.destroy
 
-    redirect_to @job_applications_url, notice: "Job application deleted successfully."
+    redirect_to job_applications_url, notice: "Job application deleted successfully."
   end
 
   private
