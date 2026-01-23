@@ -1,49 +1,39 @@
 <h1>
   <%= @job_application.role %> at <%= @job_application.company_name%> details
 </h1>
+<hr>
 
-<article>
-  <div>
-    <a href="/job_applications">
-      Go back
-    </a>
-  </div>
-
-  <div>
-    <a href="/job_applications/<%= @job_application.id %>/edit">
-      Edit Application 
-    </a>
-  </div>
-
-  <div>
-    <a href="/job_applications/<%= @job_application.id %>" data-method="delete">
-      Delete job application
-    </a>
-  </div>
-  <dl>
-
-    <dt>
-      Applied on
-    </dt>
-    <dd>
-      <%= @job_application.applied_on %>
-    </dd>
-
-    <dt>
-      Status
-    </dt>
-    <dd>
-      <%= @job_application.status %>
-    </dd?
-    
-</article>
-
-    <hr>
-
-    <div>
-      <div>
-        <a href="/job_applications/<%= @job_application.id %>/interviews">
-          <h2> Interviews for role </h2>
-        </a>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="p-2 col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-header text-wrap">
+            <%= @job_application.role.titleize %> at <%= @job_application.company_name.titleize %>
+          </h5>
+          <h6 class="card-subtitle text-center mt-1">
+            Application submitted on <%= @job_application.applied_on.strftime("%b %d") %>
+          </h6>
+        </div>
+        <% @job_application.interviews.each do |interview| %>
+          <div class="list-group list-group-flush text-center">
+            <%= link_to(
+                "#{interview.interview_type.titleize} Interview on #{interview.date_of.strftime("%b. %w")}",
+                interview_path(interview.id), 
+                class: "list-group-item list-group-item-action"
+                )%>
+          </div>
+        <% end %>
+        <div class="card-body d-flex justify-content-between">
+          <%= link_to(
+            "Edit Application",
+            edit_job_application_path(@job_application.id),
+            class: "card-link" )%>
+          <%= link_to(
+            "Add an Interview",
+            new_job_application_interview_path(@job_application.id),
+            class: "card-link" )%>
+        </div>
       </div>
     </div>
+</div>
