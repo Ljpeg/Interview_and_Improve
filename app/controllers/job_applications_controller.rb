@@ -3,6 +3,7 @@ class JobApplicationsController < ApplicationController
 
   def index
     @job_applications = job_application_scope
+    @job_applications = @job_applications.order(:created_at)
   end
 
   def new

@@ -1,24 +1,42 @@
-<h1>
-  List of all job applications
-</h1>
-<hr>
-
-<div>
-  <%= link_to 'New Application', new_job_application_path %>
+<div class="text-end">
+  <%= link_to 'Track new application', new_job_application_path, class: "btn btn-primary btn-sm" %>
 </div>
 
 <hr>
 
-<article>
-  <ul>
-    <% @job_applications.each do |job_application| %>
-      <li>
-        <a href="/job_applications/<%= job_application.id %>">
-          <%= job_application.role %> at <%= job_application.company_name%>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-</article>
+<div class="row">
+  <% @job_applications.each do |job_application| %>
+    <div class="p-2 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-header text-wrap">
+            <%= job_application.role.titleize %> at <%= job_application.company_name.titleize %>
+          </h5>
+          <h6 class="card-subtitle text-center mt-1">
+            Application submitted on <%= job_application.applied_on.strftime("%b %d") %>
+          </h6>
+        </div>
+        <% job_application.interviews.each do |interview| %>
+          <div class="list-group list-group-flush text-center">
+            <%= link_to(
+                "#{interview.interview_type.titleize} Interview on #{interview.date_of.strftime("%b. %w")}",
+                interview_path(interview.id), 
+                class: "list-group-item list-group-item-action"
+                )%>
+          </div>
+        <% end %>
 
-<hr>
+        <div class="card-body d-flex justify-content-between">
+          <%= link_to(
+            "Edit Application",
+            edit_job_application_path(job_application.id),
+            class: "card-link" )%>
+          <%= link_to(
+            "Add an Interview",
+            new_job_application_interview_path(job_application.id),
+            class: "card-link" )%>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
