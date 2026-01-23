@@ -1,29 +1,40 @@
-<h1> Edit Application </h1>
+<h1 class="text-center mb-3"> Edit Job Application </h1>
 
 <% @job_application.errors.full_messages.each do |message| %>
-  <p style="color: red;">< %= message %></p>
+  <p style="color: red;"><%= message %> </p>
 <% end %>
 
-<%= form_with(model: @job_application) do |form| %>
-  <div>
-    <%= form.label :company_name %>
-    <%= form.text_field :company_name %>
+<div class="container">
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-3">
+      <%= form_with(model: @job_application) do |form| %>
+        <div class="mb-3">
+          <%= form.label :company_name, class: "form-label" %>
+          <%= form.text_field :company_name, class: "form-control"%>
+        </div>
+        <div class="mb-3">
+          <%= form.label :role, class: "form-label" %>
+          <%= form.text_field :role, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :due_date, class: "form-label" %>
+          <%= form.date_field :due_date, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :applied_on, class: "form-label" %>
+          <%= form.date_field :applied_on, class: "form-control" %>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-md-8 my-3">
+            <%= form.label :status, class: "form-label"%>
+            <%= form.select :status, JobApplication.statuses.keys, class: "form-select form-select-lg" %>
+          </div>
+        </div>
+        <div class=" row justify-content-center">
+          <div class="col-md-8">
+            <%= form.button class: "btn btn-primary btn-sm mt-5" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= form.label :role %>
-    <%= form.text_field :role %>
-  </div>
-  <div>
-    <%= form.label :due_date %>
-    <%= form.date_field :due_date %>
-  </div>
-  <div>
-    <%= form.label :applied_on %>
-    <%= form.date_field :applied_on %>
-  </div>
-  <div>
-    <%= form.label :status %>
-    <%= form.select :status, JobApplication.statuses.keys %>
-  </div>
-  <%= form.button %>
-<% end %>
