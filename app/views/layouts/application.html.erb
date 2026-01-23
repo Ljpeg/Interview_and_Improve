@@ -35,17 +35,31 @@
 
     <!-- Connect Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
-    
+
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Interview & Improve</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="/">All Job Applications</a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <% if notice.present? %>
       <p class="alert alert-success"><%= notice %></p>
     <% end %>
 
     <% if alert.present? %>
-      <p class="alert alert-danger"><%= alert %></p>  
+      <p class="alert alert-danger"><%= alert %></p>
     <% end %>
+
     <%= yield %>
   </body>
 </html>
